@@ -130,8 +130,11 @@ cd myproject
 # Install NPM dependencies
 npm install
 
+# Install nodemon
+npm install -g nodemon
+
 # Then simply start your app
-node app.js
+npm start
 ```
 
 **Note:** I highly recommend installing [Nodemon](https://github.com/remy/nodemon).
