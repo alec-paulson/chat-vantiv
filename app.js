@@ -89,7 +89,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 app.use((req, res, next) => {
-  if (req.path === '/api/upload') {
+  if (req.path === '/api/upload' || app.get('env') != 'production') {
     next();
   } else {
     lusca.csrf()(req, res, next);
@@ -222,7 +222,10 @@ app.get('/auth/pinterest/callback', passport.authorize('pinterest', { failureRed
 /**
  * Recast.ai routes
  */
-app.get('/recastai/', recastaiController.converse)
+//app.get('/recastai', recastaiController.converse);
+app.post('/recastai/converse', recastaiController.converse);
+app.post('/recastai/analyseText', recastaiController.analyseText);
+app.delete('/recastai/resetConversation', recastaiController.resetConversation);
 
 /**
  * Error Handler.
