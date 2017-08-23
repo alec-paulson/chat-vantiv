@@ -35,6 +35,7 @@ const homeController = require('./controllers/home');
 const userController = require('./controllers/user');
 const apiController = require('./controllers/api');
 const contactController = require('./controllers/contact');
+const recastaiController = require('./controllers/recastai');
 
 /**
  * API keys and Passport configuration.
@@ -219,6 +220,11 @@ app.get('/auth/pinterest/callback', passport.authorize('pinterest', { failureRed
 });
 
 /**
+ * Recast.ai routes
+ */
+app.get('/recastai/', recastaiController.converse)
+
+/**
  * Error Handler.
  */
 app.use(errorHandler());
@@ -235,7 +241,7 @@ app.listen(app.get('port'), () => {
     browserSync({
       files: ['**/*.{html,js,css,pug}'],
       online: false,
-      open: true,
+      open: false,
       proxy: 'localhost:' + app.get('port')
     });
   }

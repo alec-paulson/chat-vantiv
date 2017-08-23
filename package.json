@@ -56,6 +56,7 @@
     "passport-twitter": "^1.0.4",
     "paypal-rest-sdk": "^1.7.1",
     "pug": "^2.0.0-rc.3",
+    "recastai": "^3.4.1",
     "request": "^2.81.0",
     "stripe": "^4.24.0",
     "tumblr.js": "^1.1.1",
