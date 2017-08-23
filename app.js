@@ -19,6 +19,7 @@ const expressValidator = require('express-validator');
 const expressStatusMonitor = require('express-status-monitor');
 const sass = require('node-sass-middleware');
 const multer = require('multer');
+const browserSync = require('browser-sync');
 
 const upload = multer({ dest: path.join(__dirname, 'uploads') });
 
@@ -102,13 +103,13 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
   // After successful login, redirect back to the intended page
   if (!req.user &&
-      req.path !== '/login' &&
-      req.path !== '/signup' &&
-      !req.path.match(/^\/auth/) &&
-      !req.path.match(/\./)) {
+    req.path !== '/login' &&
+    req.path !== '/signup' &&
+    !req.path.match(/^\/auth/) &&
+    !req.path.match(/\./)) {
     req.session.returnTo = req.path;
   } else if (req.user &&
-      req.path === '/account') {
+    req.path === '/account') {
     req.session.returnTo = req.path;
   }
   next();
@@ -228,6 +229,16 @@ app.use(errorHandler());
 app.listen(app.get('port'), () => {
   console.log('%s App is running at http://localhost:%d in %s mode', chalk.green('✓'), app.get('port'), app.get('env'));
   console.log('  Press CTRL-C to stop\n');
+  if (app.get('env') != 'production') {
+    console.log('Starting browsersync...');
+    // https://ponyfoo.com/articles/a-browsersync-primer#inside-a-node-application
+    browserSync({
+      files: ['**/*.{html,js,css,pug}'],
+      online: false,
+      open: true,
+      proxy: 'localhost:' + app.get('port')
+    });
+  }
 });
 
 module.exports = app;
